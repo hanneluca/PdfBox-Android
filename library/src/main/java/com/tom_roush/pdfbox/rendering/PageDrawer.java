@@ -268,11 +268,19 @@ public class PageDrawer extends PDFGraphicsStreamEngine
     // TODO: alpha?
     private int getColor(PDColor color) throws IOException {
         PDColorSpace colorSpace = color.getColorSpace();
-        float[] floats = colorSpace.toRGB(color.getComponents());
-        int r = Math.round(floats[0] * 255);
-        int g = Math.round(floats[1] * 255);
-        int b = Math.round(floats[2] * 255);
-        return Color.rgb(r, g, b);
+        float[] cvalue = color.getComponents();
+        if (cvalue.length>0){
+            float[] floats = colorSpace.toRGB(cvalue);
+            int r = Math.round(floats[0] * 255);
+            int g = Math.round(floats[1] * 255);
+            int b = Math.round(floats[2] * 255);
+            return Color.rgb(r, g, b);
+        }else {
+            int r = Math.round(255);
+            int g = Math.round(255);
+            int b = Math.round(255);
+            return Color.rgb(r, g, b);
+        }
     }
 
     // sets the clipping path using caching for performance, we track lastClip manually because
